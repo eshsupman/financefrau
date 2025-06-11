@@ -1,18 +1,11 @@
-package com.m.finfrau.convertor;
+package com.m.finfrau;
 
-import com.m.finfrau.requests.ValCurs;
-import com.m.finfrau.requests.Valute;
 import com.m.finfrau.service.CurrencyService;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.Unmarshaller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;

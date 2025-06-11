@@ -16,14 +16,15 @@ public class ExpenseRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void saveExpense(Long userId, ExpenseRequest expense) {
-        String sql = "INSERT INTO expenses (user_id, amount, category, description, expense_date) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO expenses (user_id, amount, category, description, expense_date, currency) " +
+                "VALUES (?, ?, ?, ?, ?,?)";
+        System.out.println(expense.getCurrency());
         jdbcTemplate.update(sql, userId, expense.getAmount(), expense.getCategory(),
-                expense.getDescription(), expense.getExpenseDate());
+                expense.getDescription(), expense.getExpenseDate(), expense.getCurrency());
     }
 
     public List<ExpenseRequest> getExpensesByUser(Long userId) {
-        String sql = "SELECT amount, category, description, expense_date FROM expenses WHERE user_id = ?";
+        String sql = "SELECT amount, category, description, expense_date, currency FROM expenses WHERE user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
             ExpenseRequest response = new ExpenseRequest();
             //response.setId(rs.getLong("id"));
@@ -31,6 +32,7 @@ public class ExpenseRepository {
             response.setCategory(rs.getString("category"));
             response.setDescription(rs.getString("description"));
             response.setExpenseDate(rs.getDate("expense_date").toLocalDate());
+            response.setCurrency(rs.getString("currency"));
             return response;
         });
     }

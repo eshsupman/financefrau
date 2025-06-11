@@ -4,6 +4,7 @@ package com.m.finfrau.repositories;
 import com.m.finfrau.requests.ExpenseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,11 +24,16 @@ public class ExpenseRepository {
                 expense.getDescription(), expense.getExpenseDate(), expense.getCurrency());
     }
 
+    public void deleteExpense(Long userId, Long expenseId) {
+        String sql = "DELETE FROM expenses WHERE user_id = ? AND id = ?";
+        jdbcTemplate.update(sql, userId, expenseId);
+    }
+
     public List<ExpenseRequest> getExpensesByUser(Long userId) {
-        String sql = "SELECT amount, category, description, expense_date, currency FROM expenses WHERE user_id = ?";
+        String sql = "SELECT id, amount, category, description, expense_date, currency FROM expenses WHERE user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
             ExpenseRequest response = new ExpenseRequest();
-            //response.setId(rs.getLong("id"));
+            response.setId(rs.getLong("id"));
             response.setAmount(rs.getBigDecimal("amount"));
             response.setCategory(rs.getString("category"));
             response.setDescription(rs.getString("description"));

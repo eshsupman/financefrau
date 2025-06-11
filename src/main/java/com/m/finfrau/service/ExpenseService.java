@@ -16,7 +16,10 @@ public class ExpenseService {
     public void addExpense(Long userId, ExpenseRequest request) {
         expenseRepository.saveExpense(userId, request);
     }
-
+    public boolean deleteExpense(Long userId,Long id ) {
+        expenseRepository.deleteExpense(userId,id);
+        return true;
+    }
     public List<ExpenseRequest> getExpenses(Long userId) {
         return expenseRepository.getExpensesByUser(userId);
     }

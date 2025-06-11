@@ -41,6 +41,8 @@ dependencies {
 //	implementation("org.jvnet.jaxb:jaxb-maven-plugin-core:4.0.7")
 	implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.1")
 	implementation("org.glassfish.jaxb:jaxb-runtime:3.0.1")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.9.2") // JUnit 5
+	testImplementation("org.mockito:mockito-core:5.3.1")
 
 	implementation("org.springframework.boot:spring-boot-starter-web:3.5.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

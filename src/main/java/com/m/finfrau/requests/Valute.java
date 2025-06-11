@@ -32,4 +32,17 @@ public class Valute {
     public String getValue() {
         return value;
     }
+
+    public String getId() {
+        return id;
+    }
+    public void setCharCode(String charCode) {
+        this.charCode = charCode;
+    }
+    public void setNominal(int nominal) {
+        this.nominal = nominal;
+    }
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

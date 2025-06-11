@@ -20,9 +20,15 @@ public class CurrencyService {
 
     private static final String URL = "https://cbr.ru/scripts/XML_daily.asp";
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
     private Map<String, BigDecimal> cachedRates;
     private LocalDate lastUpdated;
+
+    public CurrencyService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     private Map<String, BigDecimal> fetchRates() {
         try {
             String xml = restTemplate.getForObject(URL, String.class);
@@ -68,3 +74,4 @@ public class CurrencyService {
                 .divide(toRate, 4, RoundingMode.HALF_UP);
     }
 }
+

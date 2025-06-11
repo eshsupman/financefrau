@@ -43,6 +43,8 @@ dependencies {
 	implementation("org.glassfish.jaxb:jaxb-runtime:3.0.1")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.9.2") // JUnit 5
 	testImplementation("org.mockito:mockito-core:5.3.1")
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	testImplementation("com.h2database:h2:2.2.220")
 
 	implementation("org.springframework.boot:spring-boot-starter-web:3.5.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -36,6 +36,12 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+//	implementation("javax.xml.bind:jaxb-api:2.3.1")
+//	// https://mvnrepository.com/artifact/org.jvnet.jaxb/jaxb-maven-plugin-core
+//	implementation("org.jvnet.jaxb:jaxb-maven-plugin-core:4.0.7")
+	implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.1")
+	implementation("org.glassfish.jaxb:jaxb-runtime:3.0.1")
+
 	implementation("org.springframework.boot:spring-boot-starter-web:3.5.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

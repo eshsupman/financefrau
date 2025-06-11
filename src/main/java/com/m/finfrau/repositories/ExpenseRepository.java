@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,8 +31,10 @@ public class ExpenseRepository {
     }
 
     public List<ExpenseRequest> getExpensesByUser(Long userId) {
-        String sql = "SELECT id, amount, category, description, expense_date, currency FROM expenses WHERE user_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+        String sql = "SELECT id, amount, category, description, expense_date, currency FROM expenses WHERE user_id = ? AND expense_date = ?";
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return jdbcTemplate.query(sql, new Object[]{userId, sqlDate}, (rs, rowNum) -> {
             ExpenseRequest response = new ExpenseRequest();
             response.setId(rs.getLong("id"));
             response.setAmount(rs.getBigDecimal("amount"));

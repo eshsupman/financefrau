@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.5.0"
@@ -44,13 +46,29 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter:5.9.2") // JUnit 5
 	testImplementation("org.mockito:mockito-core:5.3.1")
 	// https://mvnrepository.com/artifact/com.h2database/h2
-	testImplementation("com.h2database:h2:2.2.220")
+	//testImplementation("com.h2database:h2:2.2.220")
 
 	implementation("org.springframework.boot:spring-boot-starter-web:3.5.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+val integrationTest by sourceSets.creating {
+	java.srcDir("src/integrationTest/java")
+	resources.srcDir("src/integrationTest/resources")
+	compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+	runtimeClasspath += output + compileClasspath
+}
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+configurations[integrationTest.implementationConfigurationName].extendsFrom(configurations.testImplementation.get())
+configurations[integrationTest.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly.get())
+
+tasks.register<Test>("integrationTest") {
+	description = "Runs integration tests"
+	group = "verification"
+	testClassesDirs = integrationTest.output.classesDirs
+	classpath = integrationTest.runtimeClasspath
+
+	testLogging {
+		events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+	}
 }

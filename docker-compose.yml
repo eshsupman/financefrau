@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: finfrau
+      POSTGRES_PASSWORD: finfrau
+      POSTGRES_DB: finfrau
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: finfrau-app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finfrau
+      SPRING_DATASOURCE_USERNAME: finfrau
+      SPRING_DATASOURCE_PASSWORD: finfrau
+
+volumes:
+  pgdata:

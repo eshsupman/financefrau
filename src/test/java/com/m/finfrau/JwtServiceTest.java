@@ -41,7 +41,6 @@ public class JwtServiceTest {
 
     @Test
     void testValidateToken_Invalid() {
-        // Сломанный токен
         String invalidToken = "some.invalid.token";
 
         UserDetails userDetails = User.withUsername("testuser").password("password").roles("USER").build();

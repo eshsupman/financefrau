@@ -29,9 +29,6 @@ public class CustomUserDetailsServiceTest {
     void testLoadUserByUsername_UserFound() {
 
         User user = new User(0, "testuser", "testpassword");
-        user.setUsername("testuser");
-        user.setPassword("testpassword");
-
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
 

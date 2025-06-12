@@ -105,4 +105,8 @@ Unit тестирование
 Тест: ExpenseIntegrationTest
 
 Сборĸа
-Для сборки и запуска тестов запустить run_all.sh
+для сборки: make build
+для unit test: make unit-test
+---далее необходима поднятая бд---
+для интерграционного теста: make integration-test
+для запуска: make run

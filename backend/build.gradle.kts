@@ -52,6 +52,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+
 val integrationTest by sourceSets.creating {
 	java.srcDir("src/integrationTest/java")
 	resources.srcDir("src/integrationTest/resources")
@@ -68,7 +69,16 @@ tasks.register<Test>("integrationTest") {
 	testClassesDirs = integrationTest.output.classesDirs
 	classpath = integrationTest.runtimeClasspath
 
+	useJUnitPlatform()
+
 	testLogging {
-		events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+		events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
+	}
+}
+
+tasks.test {
+	useJUnitPlatform()
+	testLogging {
+		events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
 	}
 }

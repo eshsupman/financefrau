@@ -1,30 +1,45 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:17
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: finfrau
-      POSTGRES_PASSWORD: finfrau
-      POSTGRES_DB: finfrau
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   app:
-    build: ..
-    container_name: finfrau-app
-    depends_on:
-      - postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: java_app
     ports:
       - "8080:8080"
+    volumes:
+      - .:/app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finfrau
-      SPRING_DATASOURCE_USERNAME: finfrau
-      SPRING_DATASOURCE_PASSWORD: finfrau
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://localhost:5432/main"
+      SPRING_DATASOURCE_USERNAME: "ehs"
+      SPRING_DATASOURCE_PASSWORD: "1111"
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "main"
+      POSTGRES_USER: "esh"
+      POSTGRES_PASSWORD: "1111"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  integration-tests:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: integration_tests
+    command: ./scripts/run_integration_tests.sh
+    depends_on:
+      - db
 
 volumes:
-  pgdata:
+  postgres_data:
+    driver: local

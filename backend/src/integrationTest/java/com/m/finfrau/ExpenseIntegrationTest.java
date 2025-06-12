@@ -12,9 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,17 +27,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = FinfrauApplication.class)
+@SpringBootTest()
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@ExtendWith(SpringExtension.class)
 public class ExpenseIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-
 	@Autowired
-	private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper ;//= new ObjectMapper();
 
 	private String token;
 
@@ -60,7 +62,8 @@ public class ExpenseIntegrationTest {
 		token = response.substring(10, response.length()-2);
 		System.out.println(response.substring(10, response.length()-2));
 	}
-
+	@Transactional
+	@Rollback
 	@Test
 	void testAddAndFetchExpense() throws Exception {
 
